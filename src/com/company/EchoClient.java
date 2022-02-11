@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Locale;
@@ -24,13 +25,18 @@ public class EchoClient {
             var scanner = new Scanner(System.in,"UTF-8");
             var output = socket.getOutputStream();
             var writer = new PrintWriter(output);
-            try(scanner; writer){
+            var input = socket.getInputStream();
+            var isr = new InputStreamReader(input,"UTF-8");
+            Scanner scannerIn = new Scanner(isr);
+            try(scanner; writer; scannerIn){
                 while(true){
                     String message = scanner.nextLine();
                     StringBuilder sb = new StringBuilder(message);
                     writer.write(message);
                     writer.write(System.lineSeparator());
                     writer.flush();
+                    var messageIn = scannerIn.nextLine().strip();
+                    System.out.printf("Got: %s%n", messageIn);
                     if("bye".equals(message.toLowerCase())){
                         return;
                     }

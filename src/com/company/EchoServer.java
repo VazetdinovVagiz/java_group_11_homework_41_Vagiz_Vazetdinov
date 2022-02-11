@@ -43,6 +43,7 @@ public class EchoServer {
                 StringBuilder sb = new StringBuilder(message);
                 writer.write(sb.reverse().toString());
                 writer.write(System.lineSeparator());
+                writer.flush();
                 if("bye".equals(message.toLowerCase())){
                     System.out.printf("Bye bye!%n");
                     return;
